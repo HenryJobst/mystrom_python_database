@@ -28,11 +28,16 @@ def create_schema():
 
 @repeat(every(5).seconds)
 def request_mystrom_and_store():
+    TZ = os.getenv("MYSTROM_SERVER_TZ", "Europe/Berlin")
+    timezone = pytz.timezone(tz)
+    now = datetime.now(timezone)
+    if now.hour >= 22 or now.hour < 7:
+        return
     device_ip = os.getenv('MYSTROM_SERVER_ADDRESS')
-    request_mystrom_data_and_store(device_ip)
+    request_mystrom_data_and_store(device_ip, TZ)
 
 
-def request_mystrom_data_and_store(device_ip: str):
+def request_mystrom_data_and_store(device_ip: str, tz: str):
     try:
         # noinspection HttpUrlsUsage
         response = requests.get(f'http://{device_ip}/report')
@@ -56,7 +61,7 @@ def request_mystrom_data_and_store(device_ip: str):
               f'returns invalid JSON response.')
         return
 
-    store(response)
+    store(response, tz)
 
 
 @dataclass
@@ -68,10 +73,11 @@ class MyStrom:
     temperature: str
 
 
-def store(response: dict):
-    timestamp = datetime.now()
+def store(response: dict, tz: str):
+    timezone = pytz.timezone(tz)
+    current_time = datetime.now(timezone)
     mystrom = MyStrom(
-        timestamp,
+        current_time,
         response["boot_id"],
         response["power"],
         response["Ws"],
