@@ -1,1 +1,1 @@
-docker build -t mystrom-python-database .
+docker build -t mystrom_python_database .

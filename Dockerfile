@@ -15,7 +15,8 @@ ENV DB_HOST=localhost \
     DB_NAME=stiebelwp \
     DB_USER=stiebelwp \
     DB_PASSWORD=stiebelwp \
-    DB_PORT=5432
+    DB_PORT=5432 \
+    MYSTROM_SERVER_ADDRESS=192.168.1.99
 
 # Befehl zum Ausführen des Scripts beim Starten des Containers
 CMD ["python", "./mystrom.py"]
