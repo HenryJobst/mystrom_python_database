@@ -32,7 +32,7 @@ def request_mystrom_and_store():
     TZ = os.getenv("MYSTROM_SERVER_TZ", "Europe/Berlin")
     timezone = pytz.timezone(TZ)
     now = datetime.now(timezone)
-    if now.hour >= 22 or now.hour < 7:
+    if now.hour > 22 or now.hour < 6:
         return
     device_ip = os.getenv('MYSTROM_SERVER_ADDRESS')
     request_mystrom_data_and_store(device_ip, TZ)
