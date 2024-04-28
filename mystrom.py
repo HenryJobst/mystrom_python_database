@@ -6,6 +6,7 @@ from datetime import datetime
 
 import psycopg2
 import requests
+import pytz
 from dotenv import load_dotenv
 from schedule import every, repeat, run_pending
 
@@ -29,7 +30,7 @@ def create_schema():
 @repeat(every(5).seconds)
 def request_mystrom_and_store():
     TZ = os.getenv("MYSTROM_SERVER_TZ", "Europe/Berlin")
-    timezone = pytz.timezone(tz)
+    timezone = pytz.timezone(TZ)
     now = datetime.now(timezone)
     if now.hour >= 22 or now.hour < 7:
         return
