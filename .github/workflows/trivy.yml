@@ -1,0 +1,36 @@
+name: Trivy CVE-Scan
+
+on:
+  schedule:
+    - cron: "0 5 * * 1"  # Montags 05:00 UTC
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "Dockerfile"
+      - "requirements.txt"
+
+jobs:
+  scan:
+    name: Docker-Image auf bekannte CVEs prüfen
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v6
+
+      - name: Trivy installieren
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh \
+            | sh -s -- -b /usr/local/bin
+
+      - name: Docker-Image bauen
+        run: docker build -t scan-target:local .
+
+      - name: Image auf CVEs scannen
+        run: |
+          trivy image \
+            --ignore-unfixed \
+            --severity HIGH,CRITICAL \
+            --exit-code 1 \
+            scan-target:local
