@@ -33,4 +33,5 @@ jobs:
             --ignore-unfixed \
             --severity HIGH,CRITICAL \
             --exit-code 1 \
+            --ignorefile .trivyignore \
             scan-target:local
