@@ -14,6 +14,7 @@ ENV DB_HOST=localhost \
     DB_USER=stiebelwp \
     DB_PORT=5432 \
     MYSTROM_SERVER_ADDRESS=192.168.1.99 \
-    MYSTROM_SERVER_TZ=Europe/Berlin
+    MYSTROM_SERVER_TZ=Europe/Berlin \
+    PYTHONUNBUFFERED=1
 
 CMD ["python", "./mystrom.py"]
