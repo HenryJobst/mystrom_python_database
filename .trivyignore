@@ -3,3 +3,7 @@
 # Only fixable by pip itself shipping updated vendored copies.
 GHSA-6v7p-g79w-8964
 CVE-2025-47273
+# pip vendors urllib3 2.7.0 internally (pip/_vendor/urllib3); the real
+# urllib3 dependency used by requests is pinned to >=2.8.0 in requirements.txt.
+CVE-2026-97687
+CVE-2026-97689
