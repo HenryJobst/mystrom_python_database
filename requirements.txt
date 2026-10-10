@@ -3,3 +3,4 @@ psycopg2-binary
 requests
 schedule
 pytz
+urllib3>=2.8.0
